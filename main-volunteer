@@ -234,9 +234,19 @@ setupAllRecaptchaForms = () => {
     // validation as well (using the "Enable reCAPTCHA" setting in Webflow).
     return;
   }
-  $.getScript('https://www.google.com/recaptcha/api.js').done(() =>
+  //$.getScript('https://www.google.com/recaptcha/api.js').done(() =>
+  //  grecaptcha.ready(() => eachJq($('form'), setupRecaptcha))
+  //);
+  $.ajax({
+    async: false,
+    url: "https://www.google.com/recaptcha/api.js",
+    dataType: "script",
+    crossDomain: "true"
+  }).done(() =>
     grecaptcha.ready(() => eachJq($('form'), setupRecaptcha))
-  );
+  ).fail(function() {
+    return;
+  });
 };
 
 // Given a form, adds a hidden input field containing the site's domain name
